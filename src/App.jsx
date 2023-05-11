@@ -1,14 +1,7 @@
-import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import './App.css'
 
 function App() {
-  const [users, setUsers] = useState([])
-
-  useEffect(() => {
-    fetch('http://localhost:5000/users')
-    .then(res => res.json())
-    .then(data => setUsers(data))
-  }, [])
 
   const handleUser = (e) => {
     e.preventDefault();
@@ -16,7 +9,7 @@ function App() {
     const name = form.name.value;
     const email = form.email.value;
     const user = {name, email}
-    console.log(user)
+    console.log('got user from form', user)
 
     fetch('http://localhost:5000/users',{
       method: 'post',
@@ -27,27 +20,27 @@ function App() {
     })
     .then(res => res.json())
     .then(data => {
-      const newUsers = [...users, data]
-      setUsers(newUsers)
-      form.reset()
+      console.log('got user data from server again', data)
+      if(data.insertedId){
+        alert('user added successfully')
+      }
     })
   }
 
   return (
     <>
       
-      <h1>User Management System</h1>
-      <h3>Total User: {users.length}</h3>
+      <h1>Simple CRUD</h1>
+      <h3>Total User:</h3>
       <form onSubmit={handleUser} action="">
-        <input type="text" name='name' placeholder='Enter name' />
+        <input type="text" name='name' placeholder='Enter name' required/>
         <br />
-        <input type="email" name='email' placeholder='Enter email' />
+        <input type="email" name='email' placeholder='Enter email' required/>
         <br />
-        <input type="submit" />
+        <input type="submit" required/>
       </form>
-      {
-        users.map(user => <p key={user.id}> {user.id}: {user.name}, {user.email}</p>)
-      }
+      <br />
+      <Link to='/users'>See Users</Link>
     </>
   )
 }
