@@ -12,12 +12,12 @@ const User = () => {
         fetch(`http://localhost:5000/users/${_id}`, {
             method: 'DELETE'
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data)
-            const remaining = users.filter(user => user._id !== _id)
-            setUsers(remaining)
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                const remaining = users.filter(user => user._id !== _id)
+                setUsers(remaining)
+            })
     }
 
     return (
@@ -27,7 +27,7 @@ const User = () => {
                     key={user._id}>
                     Name: {user.name},
                     Email: {user.email},
-                    ID: {user._id} 
+                    ID: {user._id}
                     <Link to={`/users/${user._id}`}>Update</Link>
                     <button onClick={() => handleDelete(user._id)}>X</button>
                 </h3>)

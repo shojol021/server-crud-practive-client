@@ -9,27 +9,34 @@ const SingleUser = () => {
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
-        console.log(name, email)
-        const updatedUser = {name, email}
+        const updatedUser = { name, email }
+
 
         fetch(`http://localhost:5000/users/${user._id}`, {
-            method: 'put',
+            method: 'PUT',
             headers: {
-                'content-type' : 'application/json'
+                'content-type': 'application/json'
             },
             body: JSON.stringify(updatedUser)
         })
-        .then(res => res.json)
-        .then(data => console.log(data))
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if(data.modifiedCount > 0){
+                    form.reset()
+                    alert('updated successfully')
+                    
+                }
+            })
     }
 
     return (
         <div>
             <h2>{user.name}</h2>
             <form onSubmit={handleUpdate} action="">
-                <input type="text" name="name" defaultValue={user.name}/>
+                <input type="text" name="name" defaultValue={user.name} />
                 <br />
-                <input type="text" name="email" defaultValue={user.email}/>
+                <input type="text" name="email" defaultValue={user.email} />
                 <br />
                 <input type="submit" value='Update' />
             </form>
